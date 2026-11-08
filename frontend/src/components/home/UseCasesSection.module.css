@@ -1,0 +1,10 @@
+.section { padding-block: 64px 72px; background: #f3edf7; }
+.cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; list-style: none; padding: 0; margin: 38px 0 0; }
+.visual { height: 165px; display: grid; place-items: center; margin-bottom: 26px; overflow: hidden; }
+.item:first-child .visual { background: var(--color-violet); color: #ffad8b; border-radius: 90px 16px 16px; }
+.item:nth-child(2) .visual { background: #ffba8e; color: var(--color-violet); border-radius: 16px 90px 16px 90px; }
+.item:nth-child(3) .visual { background: #f5ccc9; color: #54276e; border-radius: 16px; background-image: repeating-linear-gradient(0deg, transparent, transparent 32px, #54276e12 33px, #54276e12 34px); }
+.label { font-size: 10px; letter-spacing: .1em; font-weight: 700; color: var(--color-violet); margin-bottom: 12px; }
+.item h3 { font-size: 23px; letter-spacing: -.03em; margin-bottom: 12px; }
+.description { color: var(--color-muted); font-size: 15px; }
+@media (max-width: 650px) { .section { padding-block: 48px; } .cases { grid-template-columns: 1fr; gap: 36px; } .visual { height: 150px; margin-bottom: 18px; } }

@@ -63,14 +63,54 @@ configurar variables de entorno y ejecutar cada aplicación.
 ## Variables de entorno
 
 - Frontend: `VITE_API_URL`
-- Backend: `PORT`, `FRONTEND_ORIGIN`, `GEMINI_API_KEY`
+- Backend: `PORT`, `FRONTEND_ORIGIN`, `GEMINI_API_KEY`, `GEMINI_MODEL`
 
 No subas archivos `.env` ni claves al repositorio.
 
 ## Despliegue
 
-- Frontend: Vercel, con directorio raíz `frontend/`.
-- Backend: Render, con directorio raíz `backend/`.
+La configuración está preparada para publicar las aplicaciones por separado.
+Usa Node.js 22.x (22.12 o posterior) en ambos servicios: el SDK de Gemini requiere
+Node 22 y Vite requiere al menos 22.12 en esa rama.
+
+### Vercel: frontend
+
+- Root Directory: `frontend`.
+- Framework Preset: Vite.
+- Install Command: `npm ci` (usa el package-lock existente).
+- Build Command: `npm run build`.
+- Output Directory: `dist`.
+- Variable de entorno de Production: `VITE_API_URL=https://TU-BACKEND.onrender.com`.
+  Usa la URL pública real del backend, sin agregar `/api`.
+
+`frontend/vercel.json` redirige las rutas del frontend a `index.html` para que
+React Router resuelva `/chat` también al abrirlo directamente o recargarlo.
+VITE_API_URL se incorpora durante la compilación: después de cambiarla hay que
+crear un nuevo despliegue. No configures GEMINI_API_KEY en Vercel ni en variables
+con prefijo VITE_.
+
+### Render: backend
+
+- Tipo: Web Service; Runtime: Node.
+- Root Directory: `backend`.
+- Build Command: `npm ci --omit=dev`.
+- Start Command: `npm start`.
+- Health Check Path: `/api/health`.
+- Configura `NODE_VERSION=22.12.0` o una versión posterior de Node 22.x.
+- Configura `GEMINI_API_KEY` como secreto, con tu clave real.
+- Configura `GEMINI_MODEL` con el modelo compatible con Interactions que usarás.
+- Configura `FRONTEND_ORIGIN=https://TU-FRONTEND.vercel.app` con el origen exacto
+  de producción de Vercel, sin ruta ni barra final. Si usas dominio propio,
+  configura ese origen en su lugar.
+
+Render proporciona PORT; no es necesario fijarlo manualmente. El servidor lee
+process.env.PORT y escucha en 0.0.0.0. CORS compara FRONTEND_ORIGIN por igualdad:
+no admite comodines ni habilita automáticamente dominios de preview de Vercel.
+Las llamadas sin cabecera Origin (por ejemplo, el health check) siguen permitidas.
+
+Los valores anteriores son ejemplos para configurar manualmente, no recursos ya
+creados. Después de publicar, comprueba `/api/health` en Render, abre y recarga
+`/chat` en Vercel y verifica una solicitud desde ese origen.
 
 ## Mejoras futuras
 

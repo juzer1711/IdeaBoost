@@ -1,0 +1,10 @@
+.response { padding-block: 6px; }
+.intro { font-size: 15px; margin-bottom: 18px; overflow-wrap: anywhere; }
+.ideas { margin: 0; padding: 0; list-style-position: inside; display: grid; gap: 14px; }
+.ideas li { padding: 20px; border: 1px solid var(--color-border); border-radius: 14px; background: var(--color-paper); }
+.ideas li::marker { color: var(--color-violet); font-weight: 700; }
+.ideas h3 { font-size: 18px; letter-spacing: -.02em; margin-bottom: 8px; }
+.ideas p { color: var(--color-muted); font-size: 14px; overflow-wrap: anywhere; }
+.step { margin-top: 12px; padding: 10px 14px; background: var(--color-bg); border-radius: 8px; }
+.step strong { display: block; font-size: 11px; color: var(--color-violet); margin-bottom: 4px; }
+@media (max-width: 480px) { .ideas li { padding: 16px; } }

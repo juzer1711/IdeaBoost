@@ -1,0 +1,173 @@
+{
+  "info": {
+    "name": "IdeaBoost",
+    "description": "API real de Gemini. Configura backend/.env y ejecuta el backend antes de correr la colección.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Estado del backend",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/health"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Backend disponible', () => pm.expect(pm.response.json().status).to.eql('ok'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Generar tres ideas reales",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"Dame ideas para una campaña de reciclaje en mi universidad\",\n  \"history\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/ideas/generate"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Intro y exactamente tres ideas', () => { const body = pm.response.json(); pm.expect(body.intro).to.be.a('string').and.not.empty; pm.expect(body.ideas).to.be.an('array').with.lengthOf(3); });",
+              "pm.test('Cada idea contiene sus tres campos', () => { pm.response.json().ideas.forEach(idea => { ['title', 'description', 'firstStep'].forEach(key => pm.expect(idea[key]).to.be.a('string').and.not.empty); }); });",
+              "pm.test('Modo ideas', () => pm.expect(pm.response.json().mode).to.eql('ideas'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Rechazar mensaje vacío",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"   \",\n  \"history\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/ideas/generate"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 400', () => pm.response.to.have.status(400));",
+              "pm.test('Error claro', () => pm.expect(pm.response.json().error).to.be.a('string').and.not.empty);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Saludo sin propuestas",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"hola\",\n  \"history\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/ideas/generate"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Modo greeting y cero ideas', () => { const body=pm.response.json(); pm.expect(body.mode).to.eql('greeting'); pm.expect(body.intro).to.be.a('string').and.not.empty; pm.expect(body.ideas).to.be.an('array').with.lengthOf(0); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fuera de alcance",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"message\": \"Resuelve la ecuaci?n 2x + 5 = 17\",\n  \"history\": []\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{baseUrl}}/api/ideas/generate"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Modo out_of_scope y cero ideas', () => { const body=pm.response.json(); pm.expect(body.mode).to.eql('out_of_scope'); pm.expect(body.intro).to.be.a('string').and.not.empty; pm.expect(body.ideas).to.be.an('array').with.lengthOf(0); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

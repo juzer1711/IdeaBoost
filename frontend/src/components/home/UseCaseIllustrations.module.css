@@ -1,0 +1,9 @@
+.illustration { display: block; width: min(100%, 250px); height: auto; }
+.line { fill: none; stroke: var(--illustration-line); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.paper { fill: var(--illustration-paper); }
+.accent { fill: var(--illustration-accent); }
+.detail { fill: var(--illustration-detail); }
+.shadow { fill: var(--illustration-line); opacity: .12; }
+.campaign { --illustration-line: #ffe6d3; --illustration-paper: #643a91; --illustration-accent: #f48070; --illustration-detail: #ffbe70; }
+.events { --illustration-line: #4b227a; --illustration-paper: #fff5e9; --illustration-accent: #f48070; --illustration-detail: #c8abe7; }
+.names { --illustration-line: #54276e; --illustration-paper: #fff4ed; --illustration-accent: #c5a5e2; --illustration-detail: #ffab52; }

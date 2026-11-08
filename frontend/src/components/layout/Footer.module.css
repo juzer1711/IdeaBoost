@@ -1,0 +1,4 @@
+.footer { border-top: 1px solid var(--color-border); }
+.inner { display: flex; justify-content: space-between; gap: 16px; padding-block: 28px; color: var(--color-muted); font-size: 12px; }
+.inner strong { color: var(--color-violet); }
+@media (max-width: 650px) { .inner { flex-direction: column; gap: 4px; } }

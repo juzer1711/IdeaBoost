@@ -1,0 +1,4 @@
+$kind: collection
+description: API real de Gemini. Configura backend/.env y ejecuta el backend antes de correr la colección.
+variables:
+  baseUrl: http://localhost:3000

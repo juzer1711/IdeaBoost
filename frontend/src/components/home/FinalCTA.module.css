@@ -1,0 +1,8 @@
+.section { padding-block: 64px; }
+.banner { display: flex; align-items: center; gap: 28px; background: var(--color-violet); color: white; padding: 42px; border-radius: 24px; }
+.mark { display: block; width: 72px; height: 72px; object-fit: contain; flex-shrink: 0; }
+.banner h2 { font-size: clamp(26px, 3vw, 34px); }
+.banner p { margin-top: 12px; color: #e5d8f0; font-size: 14px; }
+.link { display: inline-flex; gap: 24px; flex-shrink: 0; margin-left: auto; background: #ffc18c; color: #30154f; padding: 14px 22px; border-radius: 100px; font-size: 14px; font-weight: 700; text-decoration: none; }
+.link:hover { background: #ffd5b1; }
+@media (max-width: 800px) { .banner { flex-wrap: wrap; padding: 30px; } .link { margin-left: 0; } .mark { display: none; } }

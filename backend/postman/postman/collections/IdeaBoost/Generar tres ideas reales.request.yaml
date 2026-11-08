@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{baseUrl}}/api/ideas/generate"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "message": "Dame ideas para una campaña de reciclaje en mi universidad",
+      "history": []
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('HTTP 200', () => pm.response.to.have.status(200));
+      pm.test('Intro y exactamente tres ideas', () => { const body = pm.response.json(); pm.expect(body.intro).to.be.a('string').and.not.empty; pm.expect(body.ideas).to.be.an('array').with.lengthOf(3); });
+      pm.test('Cada idea contiene sus tres campos', () => { pm.response.json().ideas.forEach(idea => { ['title', 'description', 'firstStep'].forEach(key => pm.expect(idea[key]).to.be.a('string').and.not.empty); }); });
+    language: text/javascript
+order: 2000
