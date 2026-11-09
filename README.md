@@ -3,6 +3,12 @@
 IdeaBoost es una miniaplicación web de ideación creativa desarrollada para la
 actividad de UX Writing en aplicaciones de inteligencia artificial.
 
+## Enlaces
+
+- **Aplicación:** [IdeaBoost en Vercel](https://idea-boost-tawny.vercel.app/)
+- **Backend:** [API de IdeaBoost en Render](https://ideaboost-xwsi.onrender.com)
+- **Estado del backend:** [GET /api/health](https://ideaboost-xwsi.onrender.com/api/health)
+
 ## Propósito
 
 Ayudar a una persona a convertir un tema, objetivo o necesidad en tres ideas
@@ -48,6 +54,35 @@ Kinneret Yifrah, Jake Knapp y Don Norman. Estos se usan como referentes para
 criterios de claridad, microcopy, enfoque y usabilidad; no como atribuciones
 de recomendaciones específicas sobre esta aplicación.
 
+## Capturas de pantalla
+
+### Escritorio
+
+**Bienvenida**
+
+![Pantalla de bienvenida de IdeaBoost en escritorio, con su mensaje principal y el botón Empezar a crear.](./docs/screenshots/bienvenida-escritorio.png)
+
+**Usos de IdeaBoost**
+
+![Sección de usos con ilustraciones para campañas, actividades y eventos, y nombres de proyectos.](./docs/screenshots/usos-escritorio.png)
+
+**Inicio del chat**
+
+![Chat inicial en escritorio con tres ejemplos guiados, contador beta y campo de escritura.](./docs/screenshots/chat-inicial-escritorio.png)
+
+**Conversación y respuesta**
+
+![Conversación en escritorio con una solicitud del usuario y propuestas de IdeaBoost en tarjetas.](./docs/screenshots/chat-respuesta-escritorio.png)
+
+### Móvil
+
+Bienvenida y conversación con el campo de escritura visible en la parte inferior.
+
+<p>
+  <img src="./docs/screenshots/bienvenida-movil.jpg" alt="Pantalla de bienvenida de IdeaBoost en un teléfono móvil." width="280" />
+  <img src="./docs/screenshots/chat-movil.jpg" alt="Conversación de IdeaBoost en móvil con una respuesta del asistente y el compositor inferior." width="280" />
+</p>
+
 ## Arquitectura
 
 - `frontend/`: interfaz React + Vite.
@@ -80,7 +115,7 @@ Node 22 y Vite requiere al menos 22.12 en esa rama.
 - Install Command: `npm ci` (usa el package-lock existente).
 - Build Command: `npm run build`.
 - Output Directory: `dist`.
-- Variable de entorno de Production: `VITE_API_URL=https://TU-BACKEND.onrender.com`.
+- Variable de entorno de Production: `VITE_API_URL=https://ideaboost-xwsi.onrender.com`.
   Usa la URL pública real del backend, sin agregar `/api`.
 
 `frontend/vercel.json` redirige las rutas del frontend a `index.html` para que
@@ -99,7 +134,7 @@ con prefijo VITE_.
 - Configura `NODE_VERSION=22.12.0` o una versión posterior de Node 22.x.
 - Configura `GEMINI_API_KEY` como secreto, con tu clave real.
 - Configura `GEMINI_MODEL` con el modelo compatible con Interactions que usarás.
-- Configura `FRONTEND_ORIGIN=https://TU-FRONTEND.vercel.app` con el origen exacto
+- Configura `FRONTEND_ORIGIN=https://idea-boost-tawny.vercel.app` con el origen exacto
   de producción de Vercel, sin ruta ni barra final. Si usas dominio propio,
   configura ese origen en su lugar.
 
@@ -108,9 +143,9 @@ process.env.PORT y escucha en 0.0.0.0. CORS compara FRONTEND_ORIGIN por igualdad
 no admite comodines ni habilita automáticamente dominios de preview de Vercel.
 Las llamadas sin cabecera Origin (por ejemplo, el health check) siguen permitidas.
 
-Los valores anteriores son ejemplos para configurar manualmente, no recursos ya
-creados. Después de publicar, comprueba `/api/health` en Render, abre y recarga
-`/chat` en Vercel y verifica una solicitud desde ese origen.
+Las URLs anteriores corresponden a la aplicación y el backend publicados.
+Después de actualizar un despliegue, comprueba `/api/health` en Render, abre y
+recarga `/chat` en Vercel y verifica una solicitud desde ese origen.
 
 ## Mejoras futuras
 
